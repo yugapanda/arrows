@@ -20,21 +20,22 @@ module.exports = class ArrowDetector {
         const h = hi * rectSize;
         const start = w + (h * screenWidth);
         const concentration = ArrowDetector.rectExtractor(start, rectSize, screenWidth, list, min, max);
-        concentrations.add(ArrowDetector.average(concentration));
+        concentrations.push([start, concentration.length]);
       }
     }
 
-    return concentrations.sort((a,b) => a - b).splice(0, 5);
+    return concentrations.filter(x => !isNaN(x[1])).sort((a,b) => b[1] - a[1]);
     
-
   }
 
   /**
    * 
    * @param {Array<number>} list 
    */
-  average(list) {
-    return list.reduce((acc, now) => acc + now) / list.length;
+  static average(list) {
+
+    const sum = list.reduce((acc, now) => acc + Number.parseInt(now), 0);
+    return sum / list.length;
   }
 
   /**
@@ -50,9 +51,7 @@ module.exports = class ArrowDetector {
       for (let h = 0; h < size; h++) {
         const point = list[start + w + (screenWidth * h)]
         if (min < point && point < max) {
-          acc.add(point);
-        } else {
-          0
+          acc.push(point);
         }
       }
     }

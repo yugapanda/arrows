@@ -40,8 +40,9 @@ class Applet extends PApplet {
   override def draw(): Unit = {
     background(0)
     points.foreach(p => {
+
       val b = PApplet.map(p.brightness, 0, 1000, 0, 255).toInt.pipe(ifZero)
-      if (b > 10 && b < 50) {
+      if (p.brightness > 50 && p.brightness < 150) {
         fill(0, 255, 255)
         stroke(0, 255, 255)
       } else {
@@ -52,13 +53,25 @@ class Applet extends PApplet {
       point(p.x, p.y)
     })
 
+    stroke(120,255,255)
+    noFill()
+    ell(768400)
+    ell(1000)
+    ell(768300)
+    ell(768500)
+    ell(1100)
+
 
   }
 
   def ifZero(int: Int): Int = if (int == 0) 255 else int
 
+  def ell(pos: Int): Unit = ellipse(pos%1280, pos/1280, 100, 100)
+
   //  def oscEvent(mes: OscMessage): Unit = {
   //
   //  }
+
+
 
 }
