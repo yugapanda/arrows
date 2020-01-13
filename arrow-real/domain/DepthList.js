@@ -20,6 +20,8 @@ module.exports = class DepthList {
         const cluster = [];
         while (this.depthMap.size > 0) {
 
+            console.log(this.depthMap.size);
+
             const d = this.depthMap.entries().next().value;
             // console.log(d);
             const local = this.getCluster(d, nearLimit);
@@ -41,14 +43,15 @@ module.exports = class DepthList {
             const targetIndex = this.rangeIndexer(target[1].point.x, target[1].point.y, nearLimit, nearLimit);
             // console.log(targetIndex);
             const depthInRange = this.rangeExtractor(targetIndex);
-            console.log(depthInRange);
-            const mostNear = this.getMostNear(target[1], depthInRange);
+            // console.log(depthInRange);
+            const mostNear = this.getMostNear(target[1], depthInRange, results);
             //console.log(mostNear);
             if (mostNear != undefined) {
-                //console.log(mostNear);
+                // console.log(mostNear);
                 results.push([mostNear.depth.point.getIndex(), mostNear.depth]);
                 target = [mostNear.depth.point.getIndex(), mostNear.depth];
             } else {
+                // console.log(mostNear);
                 return results;
             }
         }
@@ -68,11 +71,12 @@ module.exports = class DepthList {
      * 対象となるdepthと、比較したいdepthのリストから、最短距離のものを返す
      * @param {Depth} depth 
      * @param {Array<Depth>} depthList
+     * @param {Array<Depth>} results
      * @returns {{dist: Number, depth: Depth}}
      */
-    getMostNear(depth, depthList, maxDist) {
+    getMostNear(depth, depthList, results) {
         return depthList.reduce((acc, now) => {
-            if (depth.point.x == now.point.x && depth.point.y == now.point.y) {
+            if (results.some(r => r[1].point.x == now.point.x && r[1].point.y == now.point.y) || depth.point.x == now.point.x && depth.point.y == now.point.y) {
                 return acc;
             }
             const dist = Math.abs(depth.point.x - now.point.x) + Math.abs(depth.point.y - now.point.y);

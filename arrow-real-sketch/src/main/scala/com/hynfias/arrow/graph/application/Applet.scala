@@ -14,7 +14,6 @@ class Applet extends PApplet {
     fullScreen(P2D)
   }
 
-
   override def setup(): Unit = {
 
     colorMode(HSB)
@@ -25,7 +24,6 @@ class Applet extends PApplet {
     background(0)
     blendMode(ADD)
     frameRate(60)
-
 
     points = loadJSONArray("frame.json").getIntArray
       .zipWithIndex
