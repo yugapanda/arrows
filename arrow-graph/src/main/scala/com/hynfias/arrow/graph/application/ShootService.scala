@@ -41,6 +41,7 @@ object ShootService {
                       accMs: List[MelodyArrow] = Nil,
                       accBs: List[BassArrow] = Nil
                      ):(List[TempoArrow], List[RhythmArrow], List[MelodyArrow], List[BassArrow]) = effects match {
+
     case (x: TempoArrow)::xs => routing(xs, x::accTs, accRs, accMs, accBs)
     case (x: RhythmArrow)::xs => routing(xs, accTs, x::accRs, accMs, accBs)
     case (x: MelodyArrow)::xs => routing(xs, accTs, accRs, x::accMs, accBs)

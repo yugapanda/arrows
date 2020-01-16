@@ -32,9 +32,6 @@ class Applet extends PApplet {
   override def draw(): Unit = {
     background(0)
 
-
-
-
     try {
       stroke(255)
       fill(255)
@@ -47,7 +44,6 @@ class Applet extends PApplet {
 
       ShootService.update(arrows)
       ShootService.draw(arrows)
-
 
       // println(Quiver.get.toList)
     } catch {

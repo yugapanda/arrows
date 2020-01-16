@@ -18,8 +18,6 @@ object Main extends App {
 
   implicit val materializer = ActorMaterializer()
 
-
-
   val bindingFuture = Http().bindAndHandle(route, "0.0.0.0", 8081)
   println(s"Server online at http://localhost:8081/\nPress RETURN to stop...")
   StdIn.readLine() // let it run until user presses return

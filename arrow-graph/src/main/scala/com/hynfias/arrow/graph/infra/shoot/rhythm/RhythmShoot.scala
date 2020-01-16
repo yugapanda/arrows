@@ -9,6 +9,11 @@ import processing.core.PApplet
 
 case class RhythmShoot(targetId: String, sourceId: String) extends Shoot {
 
-  override def draw(effects: List[Effect])(implicit p: PApplet): Unit = ???
+  override def draw(effects: List[Effect])(implicit p: PApplet): Unit = {
+
+
+
+
+  }
 
 }

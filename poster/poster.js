@@ -32,7 +32,7 @@ class Pos {
   }
 }
 
-const poss = [new Pos(100, 200, 0, 0), new Pos(500, 600, 0, 0), new Pos(500, 300, 25, 25), new Pos(200, 300, 30, 30)];
+const poss = [new Pos(100, 200, 0, 0), new Pos(500, 600, 0, 0), new Pos(500, 300, 3, 3), new Pos(200, 300, 5, 5)];
 
 const sleep = msec => new Promise(resolve => setTimeout(resolve, msec));
 
