@@ -24,11 +24,11 @@ module.exports = class DepthList {
 
             const d = this.depthMap.entries().next().value;
             // console.log(d);
-            const local = this.getCluster(d, nearLimit);
+            const local = this.getCluster(d, nearLimit).filter(x => x.length !== 0);
 
             cluster.push(local);
             //local.forEach(x => console.log(x));
-            local.forEach(x => this.depthMap.delete(x[1].point.getIndex()));
+            local.forEach(x => this.depthMap.delete(x[1].point.getIndex(this.width)));
             this.depthMap.delete(d[0]);
 
         }
@@ -48,8 +48,8 @@ module.exports = class DepthList {
             //console.log(mostNear);
             if (mostNear != undefined) {
                 // console.log(mostNear);
-                results.push([mostNear.depth.point.getIndex(), mostNear.depth]);
-                target = [mostNear.depth.point.getIndex(), mostNear.depth];
+                results.push([mostNear.depth.point.getIndex(this.width), mostNear.depth]);
+                target = [mostNear.depth.point.getIndex(this.width), mostNear.depth];
             } else {
                 // console.log(mostNear);
                 return results;

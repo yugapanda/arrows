@@ -17,7 +17,7 @@ module.exports = class ArrowDetector {
   static detection(list, depthRange, maxDistance, minPointsNum, screenWidth, screenHeight) {
 
     //1. 有効な範囲の点をフィルタする(範囲は変数にする)
-    const inRangePoints = new Map(list.map((x, i) => [i, new Depth(new Point(i % screenWidth, Math.floor(i / screenHeight)), x)]));
+    const inRangePoints = new Map(list.map((x, i) => [i, new Depth(new Point(i % screenWidth, Math.trunc(i / screenHeight)), x)]));
     inRangePoints.forEach((v, k, m) => {
       if (v.depth < depthRange.min || depthRange.max < v.depth) {
         m.delete(k);
@@ -26,7 +26,7 @@ module.exports = class ArrowDetector {
 
 
     //1. 有効な点から最小距離にある有効な点を求め、その点の最小距離にある点を求める、という操作を有効な点がなくなるまで繰り返す。
-    const dl = new DepthList(inRangePoints, 1280, 720);
+    const dl = new DepthList(inRangePoints, screenWidth, screenWidth);
     const clusters = dl.getClusters(maxDistance, minPointsNum);
 
     return clusters;
