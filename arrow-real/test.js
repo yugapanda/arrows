@@ -8,7 +8,7 @@ const fs = require("fs");
  * @param {Array<Point>} arr 
  */
 const calcAverage = (arr) => {
-    console.log(arr);
+    console.log(JSON.stringify(arr));
 
     try {
         const len = arr.length;
@@ -22,18 +22,17 @@ const calcAverage = (arr) => {
     }
 }
 
-const filterd = list.filter((x, i) => i % 10 == 0 && (Math.trunc(i / 1280)) % 10 == 0);
+const filterd = list.filter((x, i) => i % 10 === 0 && Math.trunc(i / 1280) % 10 === 0);
 
 console.log(list.length);
 console.log(filterd.length);
 
-const points = ArrowDetector.detection(filterd, new Range(50, 150), 2, 5, 128, 72).filter(x => x.length > 5);
+const points = ArrowDetector.detection(filterd, new Range(50, 300), 2, 5, 128, 72).filter(x => x.length >= 2);
 
 console.log(points.length);
 
 const p = points.map(x => calcAverage(x));
 
+console.log(filterd.length / 128);
 
 fs.writeFileSync("result.json", JSON.stringify(p));
-
-
