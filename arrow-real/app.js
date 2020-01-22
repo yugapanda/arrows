@@ -21,7 +21,6 @@ async function main() {
 
       const body = Arrow.bulk(pairs);
 
-
       const options = {
         method: "POST",
         json: true,

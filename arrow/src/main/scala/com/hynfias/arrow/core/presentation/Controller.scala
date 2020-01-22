@@ -27,6 +27,7 @@ object Controller {
     path("add") {
       post {
         entity(as[List[RealObject]]) { roList =>
+          println(roList)
           ArrowFactory.update(roList)
           complete("ok")
         }
@@ -37,6 +38,5 @@ object Controller {
         complete(ArrowFactory.getArrows)
       }
     }
-
   }
 }
