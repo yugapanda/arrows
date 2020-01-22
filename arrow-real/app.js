@@ -1,5 +1,7 @@
 const rs2 = require('node-librealsense');
 const rp = require("request-promise");
+const detection = require("./domain/Detection");
+const Arrow = require("./domain/Arrow");
 
 const sleep = msec => new Promise(resolve => setTimeout(resolve, msec));
 
@@ -13,21 +15,23 @@ async function main() {
     try {
       const frameset = pipeline.waitForFrames();  // Get a set of frames
       const depth = frameset.depthFrame;  // Get depth data
-      const body = depth.getData().toString().split(",");
-      console.log(JSON.stringify(body));
+      const points = depth.getData().toString().split(",");
 
-      // const options = {
-      //   method: "POST",
-      //   json: true,
-      //   uri: "http://localhost:18081/add",
-      //   body
-      // }
+      const pairs = detection(points);
 
-      // const res = await rp(options);
+      const body = Arrow.bulk(pairs);
 
-      await sleep(1000);
+
+      const options = {
+        method: "POST",
+        json: true,
+        uri: "http://localhost:8081/add",
+        body
+      }
+
+      const res = await rp(options);
+
     } catch (e) {
-      console.log(e)
       await sleep(1000);
     }
   }

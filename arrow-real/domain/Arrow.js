@@ -12,4 +12,12 @@ module.exports = class Arrow {
         this.h = h;
     }
 
+    /**
+     * 
+     * @param {Array<Array<number>>} arr 
+     */
+    static bulk(arr) {
+        return arr.map(x => new Arrow(x[0], x[1], 100));
+    }
+
 }
