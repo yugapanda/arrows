@@ -1,9 +1,11 @@
 const rs2 = require('node-librealsense');
-const rp = require("request-promise");
 const detection = require("./domain/Detection");
 const Arrow = require("./domain/Arrow");
+const osc = require("node-osc");
 
 const sleep = msec => new Promise(resolve => setTimeout(resolve, msec));
+
+const oscClient = new osc.Client('127.0.0.1', 12001);
 
 async function main() {
 
@@ -21,14 +23,11 @@ async function main() {
 
       const body = Arrow.bulk(pairs);
 
-      const options = {
-        method: "POST",
-        json: true,
-        uri: "http://localhost:8081/add",
-        body
-      }
-
-      const res = await rp(options);
+      const message = new osc.Message("/add");
+      message.append(JSON.stringify(body));
+      
+      oscClient.send(message);
+      await sleep(1);
 
     } catch (e) {
       await sleep(1000);

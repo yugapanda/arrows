@@ -1,43 +1,52 @@
 package com.hynfias.arrow.core.presentation
 
-import akka.http.scaladsl.Http
-import ch.megard.akka.http.cors.scaladsl.CorsDirectives._
-import akka.http.scaladsl.server.Directives._
-import akka.http.scaladsl.server.Route
-import spray.json.DefaultJsonProtocol._
-import akka.http.scaladsl.marshallers.sprayjson.SprayJsonSupport._
-import com.hynfias.arrow.core.domain.model.RealObject
-import com.hynfias.arrow.core.application.ArrowFactory
-import com.hynfias.arrow.core.domain.model.arrow.Arrow
-import com.hynfias.arrow.core.presentation.model.{Arrows, RealObjects}
-import spray.json.RootJsonFormat
+import java.net.{InetSocketAddress, SocketAddress}
 
-import scala.concurrent.Future
+import com.hynfias.arrow.core.application.ArrowFactory
+import com.hynfias.arrow.core.domain.model.RealObject
+import com.hynfias.arrow.core.presentation.model.RealObjects
+import de.sciss.osc
+import de.sciss.osc.{Message, UDP}
+import de.sciss.osc.UDP.Client
+import de.sciss.osc.UDP.Receiver.Undirected
+import io.circe.parser._
+import io.circe.syntax._
 
 object Controller {
 
+  val conf: UDP.ConfigBuilder = UDP.Config()
+  conf.localPort = 12001
+  val server: Undirected = osc.UDP.Receiver(conf)
+  val client: Client = osc.UDP.Client(new InetSocketAddress("127.0.0.1",12002))
 
-  implicit val realObject: RootJsonFormat[RealObject] = jsonFormat3(RealObject.apply)
-  implicit val realObjects: RootJsonFormat[RealObjects] = jsonFormat1(RealObjects.apply)
-  implicit val arrow: RootJsonFormat[Arrow] = jsonFormat5(Arrow.apply)
-  implicit val arrows: RootJsonFormat[Arrows] = jsonFormat1(Arrows.apply)
-  implicit val ec =  scala.concurrent.ExecutionContext.global
-  val route: Route = cors() {
-    path("add") {
-      post {
-        entity(as[List[RealObject]]) { roList =>
-          println(roList)
-          Future {
+  server.connect()
+  client.connect()
+
+  def exec(): Unit = {
+
+    server.action = {
+      // match against a particular message
+      case (osc.Message("/add", s: String), _) =>
+        println(s)
+        decode[List[RealObject]](s) match {
+          case Right(roList) =>
             ArrowFactory.update(roList)
-          }
-          complete("ok")
+            println(ArrowFactory.getArrows.asJson.toString())
+            client ! Message("/to", ArrowFactory.getArrows.asJson.toString())
+          case Left(error) =>
+            println(println(ArrowFactory.getArrows))
+            println(error)
         }
-      }
-    } ~
-    path(""){
-      get {
-        complete(ArrowFactory.getArrows)
-      }
+
+      case (osc.Message("/", s: String), _) =>
+        println("other")
+      case x =>
+        println(x)
     }
+  }
+
+  def end(): Unit = {
+    server.close()
+    client.close()
   }
 }

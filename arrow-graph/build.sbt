@@ -14,6 +14,7 @@ lazy val root = (project in file(".")).
     libraryDependencies +=  "org.scalaj" %% "scalaj-http" % "2.4.2",
     libraryDependencies += "io.circe" %% "circe-core" % "0.12.3",
     libraryDependencies += "io.circe" %% "circe-parser" % "0.12.3",
-    libraryDependencies += "io.circe" %% "circe-generic" % "0.12.3"
+    libraryDependencies += "io.circe" %% "circe-generic" % "0.12.3",
+    libraryDependencies += "de.sciss" %% "scalaosc" % "1.2.1"
 
   )

@@ -7,9 +7,6 @@ import processing.core.PApplet
 
 object Main extends App {
 
-  val ex = Executors.newSingleThreadExecutor()
-  ex.execute(new GetArrow)
-
   PApplet.main("com.hynfias.arrow.graph.application.Applet")
 
 }

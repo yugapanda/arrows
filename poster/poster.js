@@ -1,4 +1,8 @@
 const request = require("request-promise");
+const osc = require("node-osc");
+
+const oscClient = new osc.Client('127.0.0.1', 12001);
+
 
 const width = 1000;
 const height = 920;
@@ -43,18 +47,14 @@ async function main() {
       return x.get();
     });
 
-    const options = {
-      //uri: "http://192.168.24.12:8081/add",
-      uri: "http://localhost:8081/add",
-      body,
-      method: "POST",
-      json: true
-    };
+    const message = new osc.Message("/add");
+    message.append(JSON.stringify(body));
+
 
     try {
-      await request(options);
+      oscClient.send(message);
     } catch (e) {
-      //console.log(e);
+      
     }
 
     await new Promise(r => setTimeout(r, 100));
