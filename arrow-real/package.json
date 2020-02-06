@@ -5,6 +5,7 @@
   "main": "app.js",
   "dependencies": {
     "node-librealsense": "^0.2130.0",
+    "node-osc": "^4.1.4",
     "request": "^2.88.0",
     "request-promise": "^4.2.5"
   },
