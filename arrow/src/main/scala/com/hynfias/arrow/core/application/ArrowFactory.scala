@@ -2,6 +2,7 @@ package com.hynfias.arrow.core.application
 
 import com.hynfias.arrow.core.domain.model.RealObject
 import com.hynfias.arrow.core.domain.model.arrow.{Arrow, Quiver}
+import com.hynfias.arrow.core.presentation.model.Arrows
 
 object ArrowFactory {
 
@@ -12,11 +13,11 @@ object ArrowFactory {
     println(quiver.arrows.toList)
   }
 
-  def getArrows: List[Arrow] = {
+  def getArrows: Arrows = {
     if(quiver.arrows.nonEmpty) {
-      quiver.arrows.dequeue._1
+      Arrows(quiver.arrows.dequeue._1)
     } else {
-      Nil
+      Arrows(Nil)
     }
   }
 

@@ -16,5 +16,4 @@ object Quiver {
   def add(arrows: List[RealArrow]): Unit =
     drawable = ArrowFactory.make(arrows, drawable)
 
-
 }

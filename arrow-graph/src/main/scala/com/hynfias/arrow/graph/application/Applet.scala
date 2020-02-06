@@ -1,15 +1,18 @@
 package com.hynfias.arrow.graph.application
 
+import com.hynfias.arrow.graph.domain.way.{RealArrow, RealArrows}
 import com.hynfias.arrow.graph.infra.Quiver
 import com.hynfias.arrow.graph.infra.effect.Effect
+import io.circe.parser.decode
 import processing.core.PApplet
 import processing.core.PConstants._
+import oscP5.{OscMessage, _}
 
 class Applet extends PApplet {
 
   implicit val p: PApplet = this
 
-  //  val osc = new OscP5(this, 14445)
+  val osc = new OscP5(this, 12002)
 
   override def settings(): Unit = {
     fullScreen(P2D)
@@ -52,8 +55,21 @@ class Applet extends PApplet {
     }
   }
 
-  //  def oscEvent(mes: OscMessage): Unit = {
-  //
-  //  }
+
+
+    def oscEvent(mes: OscMessage): Unit = {
+
+      println(mes.get(0).stringValue().replace("\n", "").replace(" ", ""))
+
+      mes.addrPattern() match {
+        case "/to" => decode[RealArrows](mes.get(0).stringValue()) match {
+          case Right(x) =>
+            println(x)
+            Quiver.add(x.arrows)
+          case Left(x) => println(x)
+        }
+        case x => println(x)
+      }
+    }
 
 }
