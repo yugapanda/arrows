@@ -18,9 +18,11 @@ object Controller {
   conf.localPort = 12001
   val server: Undirected = osc.UDP.Receiver(conf)
   val client: Client = osc.UDP.Client(new InetSocketAddress("127.0.0.1",12002))
+  val clientMusic: Client = osc.UDP.Client(new InetSocketAddress("127.0.0.1",12003))
 
   server.connect()
   client.connect()
+  clientMusic.connect()
 
   def exec(): Unit = {
 
