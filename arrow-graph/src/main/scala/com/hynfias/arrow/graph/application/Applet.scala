@@ -12,7 +12,11 @@ class Applet extends PApplet {
 
   implicit val p: PApplet = this
 
-  val osc = new OscP5(this, 12002)
+
+  val oscProp = new OscProperties()
+  oscProp.setDatagramSize(10000)
+  oscProp.setListeningPort(12002)
+  val osc = new OscP5(this, oscProp)
 
   override def settings(): Unit = {
     fullScreen(P2D)
@@ -56,24 +60,25 @@ class Applet extends PApplet {
   }
 
 
+  def oscEvent(mes: OscMessage): Unit = {
 
-    def oscEvent(mes: OscMessage): Unit = {
 
-      //println(mes.get(0).stringValue().replace("\n", "").replace(" ", ""))
-
-      mes.addrPattern() match {
-        case "/to" => decode[RealArrows](mes.get(0).stringValue()) match {
+    mes.addrPattern() match {
+      case "/to" => try {
+        decode[RealArrows](mes.get(0).stringValue()) match {
           case Right(x) =>
             println(x)
             Quiver.add(x.arrows)
           case Left(x) => println(x)
         }
-        case "/graph" =>
-          Quiver.hit(mes.get(0).stringValue())
-          ShootService.bang(mes.get(0).stringValue(), Quiver.get, this)
-        case "/tempo" => Quiver.hit()
-        case _ => ()
       }
+      case "/graph" => try {
+        Quiver.hit(mes.get(0).stringValue())
+        ShootService.bang(mes.get(0).stringValue(), Quiver.get, this)
+      }
+      case "/tempo" => Quiver.hit()
+      case _ => ()
     }
+  }
 
 }

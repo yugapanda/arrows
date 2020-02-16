@@ -4,8 +4,8 @@ const osc = require("node-osc");
 const oscClient = new osc.Client('127.0.0.1', 12001);
 
 
-const width = 1000;
-const height = 920;
+const width = 1920;
+const height = 1080;
 
 class Pos {
   constructor(x, y, addX, addY) {
@@ -44,6 +44,8 @@ new Pos(200, 300, 8, 5),
 new Pos(200, 300, 5, 8),
 new Pos(500, 300, 2, 3),
 new Pos(500, 700, 5, 2),
+new Pos(500, 600, 2, 3),
+new Pos(550, 750, 5, 7),
 new Pos(100, 100, 2, 2),];
 
 const sleep = msec => new Promise(resolve => setTimeout(resolve, msec));

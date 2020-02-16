@@ -21,9 +21,7 @@ case class BassArrow(
   var color: Int = Int.MaxValue
 
   def draw(implicit p: PApplet): Unit = {
-    p.fill(color)
-    p.noStroke()
-    p.ellipse(x, y, width, height)
+
   }
 
   override def bang(content: EffectKind): Unit = content match {
