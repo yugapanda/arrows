@@ -27,7 +27,9 @@ case class BassArrow(
   }
 
   override def bang(content: EffectKind): Unit = content match {
-    case Bang(x) =>
+    case Bang(x) => if (x == id) {
+    }
+    case _ => ()
   }
 
 

@@ -4,7 +4,8 @@ import java.net.{InetSocketAddress, SocketAddress}
 
 import com.hynfias.arrow.core.application.ArrowFactory
 import com.hynfias.arrow.core.domain.model.RealObject
-import com.hynfias.arrow.core.presentation.model.RealObjects
+import com.hynfias.arrow.core.domain.model.music.MusicParamsMaker
+import com.hynfias.arrow.core.presentation.model.{Arrows, RealObjects}
 import de.sciss.osc
 import de.sciss.osc.{Message, UDP}
 import de.sciss.osc.UDP.Client
@@ -33,8 +34,10 @@ object Controller {
         decode[List[RealObject]](s) match {
           case Right(roList) =>
             ArrowFactory.update(roList)
-            println(ArrowFactory.getArrows.asJson.toString())
-            client ! Message("/to", ArrowFactory.getArrows.asJson.toString())
+            val arrows: Arrows = ArrowFactory.getArrows
+            client ! Message("/to", arrows.asJson.toString())
+            val music = Message("/params")
+            clientMusic ! Message("/params", MusicParamsMaker.make(arrows.arrows).toString)
           case Left(error) =>
             println(println(ArrowFactory.getArrows))
             println(error)

@@ -36,7 +36,15 @@ class Pos {
   }
 }
 
-const poss = [new Pos(100, 200, 0, 0), new Pos(500, 600, 0, 0), new Pos(500, 300, 3, 3), new Pos(200, 300, 5, 5)];
+const poss = [new Pos(100, 200, 0, 0),
+new Pos(500, 600, 0, 0),
+new Pos(500, 300, 3, 3),
+new Pos(200, 300, 5, 5),
+new Pos(200, 300, 8, 5),
+new Pos(200, 300, 5, 8),
+new Pos(500, 300, 2, 3),
+new Pos(500, 700, 5, 2),
+new Pos(100, 100, 2, 2),];
 
 const sleep = msec => new Promise(resolve => setTimeout(resolve, msec));
 
@@ -54,7 +62,7 @@ async function main() {
     try {
       oscClient.send(message);
     } catch (e) {
-      
+
     }
 
     await new Promise(r => setTimeout(r, 100));

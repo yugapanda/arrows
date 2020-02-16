@@ -23,7 +23,7 @@ object BassMaker {
         .foldLeft(0d)((acc, cur) => acc + tempo.distance(cur))
         .toInt
       val ave = sum / others.length
-      MathUtil.mapping(ave, 0, 1920, 0, 12).toInt
+      MathUtil.mapping(ave, 0, 1920, 0, 96).toInt % 12
   }
 
 }

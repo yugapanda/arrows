@@ -1,6 +1,7 @@
 package com.hynfias.arrow.graph.infra.shoot
 
 import com.hynfias.arrow.graph.infra.effect.Effect
+import com.hynfias.arrow.graph.infra.effect.kind.{Bang, EffectKind}
 import processing.core.PApplet
 
 trait Shoot {
@@ -14,6 +15,7 @@ trait Shoot {
       source <- effects.find(e => e.id == sourceId)
     } yield (target, source)
 
+  def bang(effectKind: EffectKind, effects: List[Effect], p: PApplet): Unit
 }
 
 

@@ -59,7 +59,7 @@ class Applet extends PApplet {
 
     def oscEvent(mes: OscMessage): Unit = {
 
-      println(mes.get(0).stringValue().replace("\n", "").replace(" ", ""))
+      //println(mes.get(0).stringValue().replace("\n", "").replace(" ", ""))
 
       mes.addrPattern() match {
         case "/to" => decode[RealArrows](mes.get(0).stringValue()) match {
@@ -68,7 +68,11 @@ class Applet extends PApplet {
             Quiver.add(x.arrows)
           case Left(x) => println(x)
         }
-        case x => println(x)
+        case "/graph" =>
+          Quiver.hit(mes.get(0).stringValue())
+          ShootService.bang(mes.get(0).stringValue(), Quiver.get, this)
+        case "/tempo" => Quiver.hit()
+        case _ => ()
       }
     }
 

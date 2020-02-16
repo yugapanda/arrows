@@ -11,7 +11,7 @@ trait TempoShootChild {
   var nowX: Float
   var nowY: Float
   var color: Int
-  var lifetime = 100
+  var lifetime = 10
   var count: Int = 0
 
   def draw(p: PApplet): Unit

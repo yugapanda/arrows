@@ -2,6 +2,7 @@ package com.hynfias.arrow.graph.application
 
 import com.hynfias.arrow.graph.infra.effect.Effect
 import com.hynfias.arrow.graph.infra.effect.bass.BassArrow
+import com.hynfias.arrow.graph.infra.effect.kind.{Bang, RhythmEffect}
 import com.hynfias.arrow.graph.infra.effect.melody.MelodyArrow
 import com.hynfias.arrow.graph.infra.effect.rhythm.RhythmArrow
 import com.hynfias.arrow.graph.infra.effect.tempo.TempoArrow
@@ -32,6 +33,13 @@ object ShootService {
     tShoots = TempoShootManager.update(tShoots)
     rShoots = RhythmShootManager.update(rShoots)
     bShoots = BassShootManager.update(bShoots)
+  }
+
+  def bang(id: String, effects: List[Effect], p: PApplet): Unit = {
+    mShoots.foreach(_.bang(Bang(id), effects, p))
+    tShoots.foreach(_.bang(Bang(id), effects, p))
+    rShoots.foreach(_.bang(Bang(id), effects, p))
+    bShoots.foreach(_.bang(Bang(id), effects, p))
   }
 
   @scala.annotation.tailrec
