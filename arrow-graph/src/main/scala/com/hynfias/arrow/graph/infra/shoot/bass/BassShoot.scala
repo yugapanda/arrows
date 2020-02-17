@@ -9,29 +9,23 @@ import processing.core.{PApplet, PVector}
 
 case class BassShoot(targetId: String, sourceId: String) extends Shoot {
 
-  override def draw(effects: List[Effect])(implicit p: PApplet): Unit = findTargetAndSource(effects).foreach(tas => {
-    val (target, source) = tas
-    wave(source, target)
-  })
+  override def draw(effects: List[Effect])(implicit p: PApplet): Unit = findTargetAndSource(effects)
+    .foreach(tas => {
+      val (target, source) = tas
+      wave(source, target)
+    })
 
   def wave(source: Effect, target: Effect)(implicit p: PApplet): Unit = {
     val diffX = (target.x - source.x) / 100
     val diffY = (target.y - source.y) / 100
-    Range(0, 100).map(x => (target.x + (diffX * x), target.y + (diffY * x)))
+    Range(0, 100).map(x => (source.x + (diffX * x), source.y + (diffY * x)))
       .grouped(2)
-      .foreach{x =>
+      .foreach { x =>
         for {
           h <- x.headOption
           l <- x.lastOption
-      } yield p.line(h._1, h._2, l._1, l._2)
+        } yield p.line(h._1, h._2, l._1 + p.random(-10, 10), l._2 + p.random(-10, 10))
       }
-
-
-
-
-
-
-
   }
 
   override def bang(effectKind: EffectKind, effects: List[Effect], p: PApplet): Unit = ()
