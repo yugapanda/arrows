@@ -40,12 +40,12 @@ object MelodyMaker {
   def calcMelody(arrow: Arrow, rhythmArrow: List[RhythmArrowPair]): Melody = {
     val others = rhythmArrow.filter(x => x.arrow.id != arrow.id)
     if (others.isEmpty) {
-      MathUtil.mapping(arrow.x + arrow.y, 0, 3000, 60, 100).toInt
+      MathUtil.mapping(arrow.x + arrow.y, 0, 1990, 60, 100).toInt
     } else {
       others
         .map(x => x.arrow.distance(arrow))
         .pipe(MathUtil.average)
-        .pipe(x => MathUtil.mapping(x, 0, 2203, 60, 100)).toInt
+        .pipe(x => MathUtil.mapping(x, 0, 1468, 60, 100)).toInt
     }
   }
 

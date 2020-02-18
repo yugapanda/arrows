@@ -24,7 +24,7 @@ object TempoMaker {
         .foldLeft(0d)((acc, cur) => acc + tempo.distance(cur))
         .toInt
       val ave = sum / others.length
-      MathUtil.mapping(ave, 0, 1920, 0, 200).toInt
+      MathUtil.mapping(ave, 0, 1270, 0, 200).toInt
   }
 
 }

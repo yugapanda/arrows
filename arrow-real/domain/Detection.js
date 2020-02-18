@@ -5,7 +5,7 @@ module.exports = function detection(list) {
 
     const filterd = list.filter((x, i) => i % 10 == 0 && (Math.trunc(i / 1280)) % 10 == 0);
 
-    const points = ArrowDetector.detection(filterd, new Range(50, 300), 10, 5, 128, 72).filter(x => x.length > 5);
+    const points = ArrowDetector.detection(filterd, new Range(1000, 1200), 10, 5, 128, 72).filter(x => x.length > 5);
 
     return points.map(x => calcAverage(x));
 
